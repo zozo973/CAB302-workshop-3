@@ -34,7 +34,7 @@ public class Contact {
 
     public void setPhone(String phone) { this.phone = phone; }
 
-    public String getFullName() {
-        return this.firstName + " " + this.lastName;
+    public String getContactSummary() {
+        return this.firstName + " " + this.lastName + " (" + this.email + ")";
     }
 }
