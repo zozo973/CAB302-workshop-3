@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
@@ -14,8 +13,6 @@ import java.io.IOException;
 public class HelloController {
     @FXML
     private TextArea termsAndConditions;
-    @FXML
-    private Label welcomeText;
     @FXML
     private CheckBox agreeCheckBox;
     @FXML
@@ -39,11 +36,6 @@ Amet justo donec enim diam vulputate ut pharetra.
 Sapien pellentesque habitant morbi tristique.
 Lorem sed risus ultricies tristique nulla aliquet.
 Elementum nibh tellus molestie nunc non blandit massa.""");
-    }
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
     }
 
     @FXML

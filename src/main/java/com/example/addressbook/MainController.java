@@ -23,7 +23,7 @@ public class MainController {
     @FXML
     private VBox contactContainer;
 
-    private IContactDAO contactDAO;
+    private final IContactDAO contactDAO;
 
     public MainController() {
         contactDAO = new MockContactDAO();
@@ -81,10 +81,17 @@ public class MainController {
     private void syncContacts() {
         contactsListView.getItems().clear();
         List<Contact> contacts = contactDAO.getAllContacts();
+        Contact currentContact = contactsListView.getSelectionModel().getSelectedItem();
         boolean hasContact = !contacts.isEmpty();
         if (hasContact) {
             contactsListView.getItems().addAll(contacts);
+            // If the current contact is still in the list, re-select it
+            // Otherwise, select the first contact in the list
+            Contact nextContact = contacts.contains(currentContact) ? currentContact : contacts.getFirst();
+            contactsListView.getSelectionModel().select(nextContact);
+            selectContact(nextContact);
         }
+
         // Show / hide based on whether there are contacts
         contactContainer.setVisible(hasContact);
     }
@@ -123,6 +130,7 @@ public class MainController {
             contactDAO.deleteContact(selectedContact);
             syncContacts();
         }
+        syncContacts();
     }
 
     @FXML

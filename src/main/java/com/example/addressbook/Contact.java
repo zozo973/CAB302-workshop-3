@@ -24,7 +24,7 @@ public class Contact {
 
     public String getLastName() { return this.lastName; }
 
-    public void setLastName(String firstName) { this.lastName = lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
     public String getEmail() { return this.email; }
 
