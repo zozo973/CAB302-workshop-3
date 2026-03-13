@@ -8,9 +8,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-    private static final String TITLE = "Address Book";
-    private static final int WIDTH = 640;
-    private static final int HEIGHT =360;
+    public static final String TITLE = "Address Book";
+    public static final int WIDTH = 640;
+    public static final int HEIGHT =360;
 
     @Override
     public void start(Stage stage) throws IOException {
