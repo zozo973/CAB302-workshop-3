@@ -83,4 +83,56 @@ public class MainController {
         contactsListView.setCellFactory(this::renderCell);
         syncContacts();
     }
+
+    @FXML
+    private void onEditConfirm() {
+        // Get the selected contact from the list view
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            selectedContact.setFirstName(firstNameTextField.getText());
+            selectedContact.setLastName(lastNameTextField.getText());
+            selectedContact.setEmail(emailTextField.getText());
+            selectedContact.setPhone(phoneTextField.getText());
+            contactDAO.updateContact(selectedContact);
+            syncContacts();
+        }
+    }
+
+    @FXML
+    private void onDelete() {
+        // Get the selected contact from the list view
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            contactDAO.deleteContact(selectedContact);
+            syncContacts();
+        }
+    }
+
+    @FXML
+    private void onAdd() {
+        final String DEFAULT_FIRST_NAME = "New";
+        final String DEFAULT_LAST_NAME = "Contact";
+        final String DEFAULT_EMAIL = "";
+        final String DEFAULT_PHONE = "";
+        Contact newContact = new Contact(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME,DEFAULT_EMAIL, DEFAULT_PHONE);
+
+        // Add the new contact to the database
+        contactDAO.addContact(newContact);
+        syncContacts();
+        // Select the new contact in the list view
+        // and focus the first name text field
+        selectContact(newContact);
+        firstNameTextField.requestFocus();
+    }
+
+    @FXML
+    private void onCancel() {
+        // Find selected contact from the list view
+        Contact selectedContact = contactsListView.getSelectionModel().getSelectedItem();
+        if (selectedContact != null) {
+            // Since the contact hasn't been modified,
+            // we can just re-select it to refresh the text fields
+            selectContact(selectedContact);
+        }
+    }
 }
