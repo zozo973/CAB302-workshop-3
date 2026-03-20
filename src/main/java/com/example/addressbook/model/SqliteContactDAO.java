@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqliteContactDAO implements IContactDAO {
-    private Connection connection;
+    Connection connection;
 
     public SqliteContactDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
-        insertSampleData();
     }
 
     public void createTable() {
@@ -30,34 +29,22 @@ public class SqliteContactDAO implements IContactDAO {
         }
     }
 
-    public void insertSampleData() {
-        try {
-            // Clear table before inserting sample data
-            Statement clearTable = connection.createStatement();
-            clearTable.execute("DELETE FROM contacts");
-            // Add sample data to contacts
-            Statement insertSampleData = connection.createStatement();
-            insertSampleData.execute(
-                    "INSERT INTO contacts (firstName, lastName, email, phone) VALUES " +
-                            "('John', 'Doe', 'Johndoe@example.com', '0423423423')," +
-                            "('Jane', 'Doe', 'Janedoe@example.com', '0423423424')," +
-                            "('Jay', 'Doe', 'Jaydoe@example.com', '0423423425')"
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
     @Override
     public void addContact(Contact contact) {
         try {
             PreparedStatement addContact = connection.prepareStatement(
-                    "INSERT INTO contacts (firstName, lastName, email, phone) VALUES (?,?,?,?)"
+                    "INSERT INTO contacts (firstName, lastName, email, phone) VALUES (?, ?, ?, ?)"
             );
             addContact.setString(1,contact.getFirstName());
             addContact.setString(2,contact.getLastName());
             addContact.setString(3,contact.getEmail());
             addContact.setString(4,contact.getPhone());
             addContact.executeUpdate();
+            // Set id of the new contact
+            ResultSet generatedKeys = addContact.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                contact.setId(generatedKeys.getInt(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +54,7 @@ public class SqliteContactDAO implements IContactDAO {
     public void updateContact(Contact contact) {
         try {
             PreparedStatement updateContact = connection.prepareStatement(
-                    "UPDATE contacts SET firstName = ?, lastName = ?, email = ?, phone = ?, WHERE id = ?"
+                    "UPDATE contacts SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE id = ?"
             );
             updateContact.setString(1,contact.getFirstName());
             updateContact.setString(2,contact.getLastName());
@@ -76,6 +63,7 @@ public class SqliteContactDAO implements IContactDAO {
             updateContact.setInt(5,contact.getId());
             updateContact.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error in update contact");
             e.printStackTrace();
         }
     }

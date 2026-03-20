@@ -30,7 +30,7 @@ public class MainController {
 
     public MainController() {
         contactDAO = new SqliteContactDAO();
-        contactDAO.addContact(new Contact("Jerry","Doe","jerrydoe@example.com","0423423326"));
+        contactDAO.addContact(new Contact("Hugo","Powe","hugo.powe@icloud.com","0411142437"));
     }
 
     private void selectContact(Contact contact) {
