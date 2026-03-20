@@ -2,7 +2,7 @@ package com.example.addressbook.controller;
 
 import com.example.addressbook.model.Contact;
 import com.example.addressbook.model.IContactDAO;
-import com.example.addressbook.model.MockContactDAO;
+import com.example.addressbook.model.SqliteContactDao;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -29,7 +29,7 @@ public class MainController {
     private final IContactDAO contactDAO;
 
     public MainController() {
-        contactDAO = new MockContactDAO();
+        contactDAO = new SqliteContactDao();
         contactDAO.addContact(new Contact("Jerry","Doe","jerrydoe@example.com","0423423326"));
     }
 
