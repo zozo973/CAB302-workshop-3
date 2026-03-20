@@ -8,6 +8,7 @@ module com.example.addressbook {
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.sql;
 
     opens com.example.addressbook to javafx.fxml;
     exports com.example.addressbook;
