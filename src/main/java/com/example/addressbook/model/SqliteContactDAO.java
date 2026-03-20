@@ -4,10 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqliteContactDao implements IContactDAO {
+public class SqliteContactDAO implements IContactDAO {
     private Connection connection;
 
-    public SqliteContactDao() {
+    public SqliteContactDAO() {
         this.connection = SqliteConnection.getInstance();
         createTable();
         insertSampleData();
@@ -49,16 +49,48 @@ public class SqliteContactDao implements IContactDAO {
     }
     @Override
     public void addContact(Contact contact) {
+        try {
+            PreparedStatement addContact = connection.prepareStatement(
+                    "INSERT INTO contacts (firstName, lastName, email, phone) VALUES (?,?,?,?)"
+            );
+            addContact.setString(1,contact.getFirstName());
+            addContact.setString(2,contact.getLastName());
+            addContact.setString(3,contact.getEmail());
+            addContact.setString(4,contact.getPhone());
+            addContact.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateContact(Contact contact) {
-
+        try {
+            PreparedStatement updateContact = connection.prepareStatement(
+                    "UPDATE contacts SET firstName = ?, lastName = ?, email = ?, phone = ?, WHERE id = ?"
+            );
+            updateContact.setString(1,contact.getFirstName());
+            updateContact.setString(2,contact.getLastName());
+            updateContact.setString(3,contact.getEmail());
+            updateContact.setString(4,contact.getPhone());
+            updateContact.setInt(5,contact.getId());
+            updateContact.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteContact(Contact contact) {
-
+        try {
+            PreparedStatement deleteContact = connection.prepareStatement(
+                    "DELETE FROM contacts WHERE id =? "
+            );
+            deleteContact.setInt(1,contact.getId());
+            deleteContact.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
